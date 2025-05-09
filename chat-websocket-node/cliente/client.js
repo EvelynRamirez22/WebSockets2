@@ -1,5 +1,6 @@
 const WebSocket = require('ws');
 const readline = require('readline');
+const chalk = require('chalk');
 
 const ws = new WebSocket('ws://localhost:8765');
 
@@ -17,7 +18,12 @@ ws.on('open', () => {
 
 ws.on('message', (data) => {
     const message = data.toString();
-    console.log(message);
+
+    if (message.startsWith('[Servidor]:')) {
+        console.log(chalk.yellow(message));
+    } else {
+        console.log(message);
+    }
 
     if (message.startsWith('[Servidor]: Por favor, ingresa tu nombre de usuario:')) {
         rl.question('', (name) => {
